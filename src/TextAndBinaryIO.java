@@ -63,20 +63,64 @@ public class TextAndBinaryIO {
         output.close();
     }
 
-    public static void exercise3() {
+    private static void exercise3() throws IOException, ClassNotFoundException {
+        Scanner scan = new Scanner(new File("data.txt"));
+        ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream("data.ser"));
+        ArrayList<Employee> employees = new ArrayList<>();
+        while(scan.hasNextLine()){
+            int i = Integer.parseInt(scan.next());
+            scan.nextLine();
+            String n = scan.nextLine();
+            String a = scan.nextLine();
+            double p = Double.parseDouble(scan.next());
+            int h = Integer.parseInt(scan.next());
+            Employee emp = new Employee(i,n,a,p,h);
+            employees.add(emp);
 
+        }
+        output.writeObject(employees);
+
+        scan.close();
+        output.close();
+
+        //read back from data.ser
+        ObjectInputStream serializedInput = new ObjectInputStream(new FileInputStream("data.ser"));
+        ArrayList<Employee> newEmployees = (ArrayList<Employee>) serializedInput.readObject();
+        for(int i = 0; i < newEmployees.size(); i++){
+            System.out.print(newEmployees.get(i).print());
+        }
+        serializedInput.close();
     }
 
     public static void exercise4() {
 
     }
 
-    public static void main (String args[]) throws IOException {
+    public static void main (String args[]) throws IOException, ClassNotFoundException {
         exercise1();
         exercise1_CC();
         exercise2();
         exercise3();
         exercise4();
 
+    }
+    
+    static class Employee implements Serializable{
+        int id;
+        String name;
+        String address;
+        double pay;
+        int hours;
+        Employee(int i, String n, String a, double p, int h){
+            id = i;
+            name = n;
+            address = a;
+            pay = p;
+            hours = h;
+        }
+
+        String print(){
+            return id + "\n" + name + "\n" + address + "\n" + pay + " " + hours + "\n";
+        }
     }
 }
