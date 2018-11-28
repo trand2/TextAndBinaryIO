@@ -92,8 +92,35 @@ public class TextAndBinaryIO {
         serializedInput.close();
     }
 
-    public static void exercise4() {
+    private static void exercise4() throws FileNotFoundException {
 
+        FileInputStream fis = new FileInputStream(new File("whp.jpg"));
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        try {
+            for (int readNum; (readNum = fis.read(buf)) != -1;) {
+                bos.write(buf, 0, readNum);
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        byte[] bytes = bos.toByteArray();
+        StringBuilder hexString = new StringBuilder();
+        StringBuilder asciiString = new StringBuilder();
+        for (int i = 0; i < bytes.length; i++){
+            String hexChar = Integer.toHexString(bytes[i] & 0xFF);
+            int decimal = Integer.parseInt(hexChar, 16);
+            asciiString.append((char)decimal);
+            hexString.append(hexChar).append(" ");
+            if(i % 16 == 0){
+                System.out.println(hexString.toString() + "\t" + asciiString.toString());
+                hexString = new StringBuilder();
+                asciiString = new StringBuilder();
+            }
+
+        }
     }
 
     public static void main (String args[]) throws IOException, ClassNotFoundException {
@@ -102,7 +129,6 @@ public class TextAndBinaryIO {
         exercise2();
         exercise3();
         exercise4();
-
     }
     
     static class Employee implements Serializable{
