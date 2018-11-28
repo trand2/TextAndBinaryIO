@@ -15,6 +15,29 @@ public class TextAndBinaryIO {
             c = fileReader.read();
         }
     }
+    
+    private static void exercise1_CC() throws IOException {
+        Scanner scan = new Scanner(new File("data.txt"));
+        PrintWriter output = new PrintWriter(new File("data-e.txt"));
+
+        while(scan.hasNextLine()){
+            String line = scan.nextLine();
+            String[] words = line.split(" ");
+            StringBuilder newLine = new StringBuilder();
+            for (String thisWord : words) {
+                StringBuilder newWord = new StringBuilder();
+                for (int j = 0; j < thisWord.length(); j++) {
+                    char letter = thisWord.charAt(j);
+                    letter += 20;
+                    newWord.append(letter);
+                }
+                newLine.append(newWord).append(" ");
+            }
+            output.println(newLine);
+        }
+        scan.close();
+        output.close();
+    }
 
     public static void exercise2() {
         Scanner scan = new Scanner(new File("data.txt"));
@@ -50,6 +73,7 @@ public class TextAndBinaryIO {
 
     public static void main (String args[]) throws IOException {
         exercise1();
+        exercise1_CC();
         exercise2();
         exercise3();
         exercise4();
