@@ -22,15 +22,18 @@ public class TextAndBinaryIO {
         output.println("[");
         while(scan.hasNextLine()){
             output.println("\t{");
-            output.println("\t\t\"id\": \"" + scan.nextLine() + "\",");
+            output.println("\t\t\"id\": " + Integer.parseInt(scan.next()) + ",");
+            scan.nextLine();
             output.println("\t\t\"name\": \"" + scan.nextLine() + "\",");
             output.println("\t\t\"address\": \"" + scan.nextLine() + "\",");
-            String payHours = scan.nextLine();
-            String[] payHoursArr = payHours.split(" ");
-            output.println("\t\t\"pay\": " + payHoursArr[0] + ",");
-            output.println("\t\t\"hours\": " + payHoursArr[1]);
-
-            output.println("\t},");
+            output.println("\t\t\"pay\": " + Double.parseDouble(scan.next()) + ",");
+            output.println("\t\t\"hours\": " + Integer.parseInt(scan.next()));
+            if(scan.hasNextLine()){
+                scan.nextLine();
+                output.println("\t},");
+            }else{
+                output.println("\t}");
+            }
         }
         output.println("]");
         scan.close();
